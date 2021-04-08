@@ -24,7 +24,23 @@ int main() {
             ptr = strtok(NULL, " ");                              // move pointer to next token
         }
         splitArgs[i - 1][strcspn(splitArgs[i - 1], "\n")] = 0;    // remove new line character from last user token
-        if ((strcmp(splitArgs[0], "!!") == 0)) {                           // check if user entered "!!"
+        char *argsToExecute[i + 1];                                        // arguments to execute
+        for (int j = 0; j < i; j++) {                                      // copy from splitArgs to argsToExecute
+            argsToExecute[j] = splitArgs[j];
+        }
+        argsToExecute[i] = NULL;                                           // set last element to NULL
+
+
+
+        for (int j = 0; j <= i; j++) {
+            printf("Element %d: ", j);
+            printf("%s", argsToExecute[j]);
+            printf("\n");
+        }
+
+
+
+        if ((strcmp(argsToExecute[0], "!!") == 0)) {                           // check if user entered "!!"
             if (strcmp(history[0], "\0") == 0) {                           // if they did, check if history is empty
                 printf("No commands in history.");                  // if it is, print error message
             } else {
@@ -32,25 +48,35 @@ int main() {
             }
         } else {
             int waitFlag = 0;                                                  // flag to indicate wait
-            if (strcmp(splitArgs[i - 1], "&") == 0) {                          // check if user inputted "&"
-                splitArgs[i - 1] = NULL;                                       // set the index of "&" to NULL
+            if (strcmp(argsToExecute[i - 1], "&") == 0) {                          // check if user inputted "&"
+                argsToExecute[i - 1] = NULL;                                       // set the index of "&" to NULL
                 waitFlag = 1;                                                  // set wait flag to true
             }
             int forkResult = fork();                                           // fork child from parent
             assert(forkResult != -1);                                          // check for fork error
             if (forkResult == 0) {                                             // child process
-                int executeResult = execvp(splitArgs[0], splitArgs);       // execute fork
+                int executeResult = execvp(argsToExecute[0], argsToExecute);       // execute fork
                 assert(executeResult >= 0);                                    // check for execute error
                 return 0;                                                      // return
-            } else if (waitFlag == 1) {                                        // parent process (only go in on wait)
+            } else {                                        // parent process (only go in on wait)
                 printf("\nParent waiting\n");                           // print wait message
                 int commandReturn;                                             // return value from command
-                wait(&commandReturn);                                          // wait
+                if (waitFlag == 1) {
+                    wait(&commandReturn);
+                }
                 printf("command returned %d \n", commandReturn);        // print success
             }
         }
-        memcpy(history, splitArgs, (MAX_LINE / 2 + 1) * sizeof (char*));    // set current command equal to previous command
+        //memcpy(history, splitArgs, (MAX_LINE / 2 + 1) * sizeof (char*));    // set current command equal to previous command
         should_run = 1;
     }
     return 0;
 }
+
+
+
+//for (int j = 0; j <= i; j++) {
+//printf("Element %d: ", j);
+//printf("%s", argsToExecute[j]);
+//printf("\n");
+//}

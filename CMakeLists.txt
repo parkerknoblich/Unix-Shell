@@ -7,5 +7,5 @@ include_directories(.)
 
 add_executable(Project1
         unixshell.c
-        test.c
+        unixshell2.c
         unixshell.h)

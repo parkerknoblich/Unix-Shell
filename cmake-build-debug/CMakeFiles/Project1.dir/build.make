@@ -89,29 +89,29 @@ CMakeFiles/Project1.dir/unixshell.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/Project1.dir/unixshell.c.s"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/parker/CSS430/Project1/unixshell.c -o CMakeFiles/Project1.dir/unixshell.c.s
 
-CMakeFiles/Project1.dir/test.c.o: CMakeFiles/Project1.dir/flags.make
-CMakeFiles/Project1.dir/test.c.o: ../test.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/parker/CSS430/Project1/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/Project1.dir/test.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/Project1.dir/test.c.o -c /home/parker/CSS430/Project1/test.c
+CMakeFiles/Project1.dir/unixshell2.c.o: CMakeFiles/Project1.dir/flags.make
+CMakeFiles/Project1.dir/unixshell2.c.o: ../unixshell2.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/parker/CSS430/Project1/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/Project1.dir/unixshell2.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/Project1.dir/unixshell2.c.o -c /home/parker/CSS430/Project1/unixshell2.c
 
-CMakeFiles/Project1.dir/test.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/Project1.dir/test.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/parker/CSS430/Project1/test.c > CMakeFiles/Project1.dir/test.c.i
+CMakeFiles/Project1.dir/unixshell2.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/Project1.dir/unixshell2.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/parker/CSS430/Project1/unixshell2.c > CMakeFiles/Project1.dir/unixshell2.c.i
 
-CMakeFiles/Project1.dir/test.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/Project1.dir/test.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/parker/CSS430/Project1/test.c -o CMakeFiles/Project1.dir/test.c.s
+CMakeFiles/Project1.dir/unixshell2.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/Project1.dir/unixshell2.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/parker/CSS430/Project1/unixshell2.c -o CMakeFiles/Project1.dir/unixshell2.c.s
 
 # Object files for target Project1
 Project1_OBJECTS = \
 "CMakeFiles/Project1.dir/unixshell.c.o" \
-"CMakeFiles/Project1.dir/test.c.o"
+"CMakeFiles/Project1.dir/unixshell2.c.o"
 
 # External object files for target Project1
 Project1_EXTERNAL_OBJECTS =
 
 Project1: CMakeFiles/Project1.dir/unixshell.c.o
-Project1: CMakeFiles/Project1.dir/test.c.o
+Project1: CMakeFiles/Project1.dir/unixshell2.c.o
 Project1: CMakeFiles/Project1.dir/build.make
 Project1: CMakeFiles/Project1.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/parker/CSS430/Project1/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking C executable Project1"

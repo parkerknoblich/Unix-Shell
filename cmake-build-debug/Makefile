@@ -142,33 +142,6 @@ Project1/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Project1.dir/build.make CMakeFiles/Project1.dir/build
 .PHONY : Project1/fast
 
-test.o: test.c.o
-
-.PHONY : test.o
-
-# target to build an object file
-test.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Project1.dir/build.make CMakeFiles/Project1.dir/test.c.o
-.PHONY : test.c.o
-
-test.i: test.c.i
-
-.PHONY : test.i
-
-# target to preprocess a source file
-test.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Project1.dir/build.make CMakeFiles/Project1.dir/test.c.i
-.PHONY : test.c.i
-
-test.s: test.c.s
-
-.PHONY : test.s
-
-# target to generate assembly for a file
-test.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Project1.dir/build.make CMakeFiles/Project1.dir/test.c.s
-.PHONY : test.c.s
-
 unixshell.o: unixshell.c.o
 
 .PHONY : unixshell.o
@@ -196,6 +169,33 @@ unixshell.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Project1.dir/build.make CMakeFiles/Project1.dir/unixshell.c.s
 .PHONY : unixshell.c.s
 
+unixshell2.o: unixshell2.c.o
+
+.PHONY : unixshell2.o
+
+# target to build an object file
+unixshell2.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Project1.dir/build.make CMakeFiles/Project1.dir/unixshell2.c.o
+.PHONY : unixshell2.c.o
+
+unixshell2.i: unixshell2.c.i
+
+.PHONY : unixshell2.i
+
+# target to preprocess a source file
+unixshell2.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Project1.dir/build.make CMakeFiles/Project1.dir/unixshell2.c.i
+.PHONY : unixshell2.c.i
+
+unixshell2.s: unixshell2.c.s
+
+.PHONY : unixshell2.s
+
+# target to generate assembly for a file
+unixshell2.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Project1.dir/build.make CMakeFiles/Project1.dir/unixshell2.c.s
+.PHONY : unixshell2.c.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -205,12 +205,12 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... Project1"
-	@echo "... test.o"
-	@echo "... test.i"
-	@echo "... test.s"
 	@echo "... unixshell.o"
 	@echo "... unixshell.i"
 	@echo "... unixshell.s"
+	@echo "... unixshell2.o"
+	@echo "... unixshell2.i"
+	@echo "... unixshell2.s"
 .PHONY : help
 
 

@@ -8,7 +8,7 @@
 
 #define MAX_LINE 80
 
-void freeArguments(char* args[], int numOfArgs) {
+void freeMemory(char* args[], int numOfArgs) {
     int i = 0;
     while ((args[i] != NULL) && (i < numOfArgs) && (i < MAX_LINE)) {
         free(args[i++]);
@@ -29,7 +29,7 @@ int getCommand(char* args[], int* numOfArgs, int* waitFlag) {
         }
         return 0;
     } else {
-        //freeArguments(args, *numOfArgs);
+        freeMemory(args, *numOfArgs);
         *numOfArgs = 0;
         if (strchr(line, '&') != NULL) {
             int i, j;
@@ -58,7 +58,6 @@ int getCommand(char* args[], int* numOfArgs, int* waitFlag) {
 int main() {
     char *args[MAX_LINE];
     int numOfArgs = 0;
-    int redirectFlag = 0;  // < is input (1), > is output (2)
     int pipeFlag = 0;
     int waitFlag = 0;
     while (1) {
@@ -70,24 +69,32 @@ int main() {
         }
         int forkret = fork();
         if (forkret == 0) {
-            if (strcmp(args[1], "<") == 0) {                 // input
-                int fd0 = open(args[2], O_RDONLY);
-                dup2(fd0, STDIN_FILENO);
-                args[1] = args[2] = NULL;
-                close(fd0);
-                redirectFlag = 1;
-            } else if (strcmp(args[1], ">") == 0) {         // output
-                int fd1 = open(args[2], O_CREAT | O_WRONLY | O_TRUNC | S_IRUSR | S_IWUSR);
-                dup2(fd1, STDOUT_FILENO);
-                args[1] = args[2] = NULL;
-                close(fd1);
-                redirectFlag = 2;
-            } else if (strcmp(args[1], "|") == 0) {         // pipe
-                pipeFlag = 1;
-                printf("PIPE");
+            int redirectionFlag = 0;
+            int redirectionFile;
+            if (args[1] != NULL) {
+                if (strcmp(args[1], "<") == 0) {                 // input
+                    redirectionFile = open(args[2], O_RDONLY);
+                    dup2(redirectionFile, STDIN_FILENO);
+                    args[1] = args[2] = NULL;
+                    redirectionFlag = 1;
+                } else if (strcmp(args[1], ">") == 0) {         // output
+                    redirectionFile = open(args[2], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+                    dup2(redirectionFile, STDOUT_FILENO);
+                    args[1] = args[2] = NULL;
+                    redirectionFlag = 2;
+                } else if (strcmp(args[1], "|") == 0) {         // pipe
+                    pipeFlag = 1;
+                    printf("PIPE");
+                }
             }
             int executeResult = execvp(args[0], args);
             assert(executeResult >= 0);
+            if (redirectionFlag == 1) {
+                close(STDIN_FILENO);
+            } else if (redirectionFlag == 2) {
+                close(STDOUT_FILENO);
+            }
+            close(redirectionFile);
             return 0;
         }  else {
             int commandResult;

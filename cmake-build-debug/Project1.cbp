@@ -84,12 +84,6 @@
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="/home/parker/CSS430/Project1/unixshell.c">
-			<Option target="Project1"/>
-		</Unit>
-		<Unit filename="/home/parker/CSS430/Project1/unixshell.h">
-			<Option target="Project1"/>
-		</Unit>
 		<Unit filename="/home/parker/CSS430/Project1/unixshell2.c">
 			<Option target="Project1"/>
 		</Unit>

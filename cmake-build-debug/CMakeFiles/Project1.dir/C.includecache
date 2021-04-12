@@ -6,19 +6,3 @@
 
 #IncludeRegexTransform: 
 
-/home/parker/CSS430/Project1/unixshell2.c
-stdio.h
--
-string.h
--
-unistd.h
--
-wait.h
--
-assert.h
--
-stdlib.h
--
-fcntl.h
--
-

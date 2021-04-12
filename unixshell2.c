@@ -4,6 +4,7 @@
 #include <wait.h>   // wait
 #include <assert.h> // assert
 #include <stdlib.h>
+#include <fcntl.h>
 
 #define MAX_LINE 80
 
@@ -57,9 +58,10 @@ int getCommand(char* args[], int* numOfArgs, int* waitFlag) {
 int main() {
     char *args[MAX_LINE];
     int numOfArgs = 0;
-    int keepRunning = 1;
+    int redirectFlag = 0;  // < is input (1), > is output (2)
+    int pipeFlag = 0;
     int waitFlag = 0;
-    while (keepRunning) {
+    while (1) {
         printf("osh>");
         fflush(stdout);
         int userInputResult = getCommand(args, &numOfArgs, &waitFlag);
@@ -68,13 +70,29 @@ int main() {
         }
         int forkret = fork();
         if (forkret == 0) {
+            if (strcmp(args[1], "<") == 0) {                 // input
+                int fd0 = open(args[2], O_RDONLY);
+                dup2(fd0, STDIN_FILENO);
+                args[1] = args[2] = NULL;
+                close(fd0);
+                redirectFlag = 1;
+            } else if (strcmp(args[1], ">") == 0) {         // output
+                int fd1 = open(args[2], O_CREAT | O_WRONLY | O_TRUNC | S_IRUSR | S_IWUSR);
+                dup2(fd1, STDOUT_FILENO);
+                args[1] = args[2] = NULL;
+                close(fd1);
+                redirectFlag = 2;
+            } else if (strcmp(args[1], "|") == 0) {         // pipe
+                pipeFlag = 1;
+                printf("PIPE");
+            }
             int executeResult = execvp(args[0], args);
             assert(executeResult >= 0);
             return 0;
-        } else {
+        }  else {
             int commandResult;
             if (waitFlag) {
-                printf("Parent waiting\n");
+               printf("Parent waiting\n");
                 wait(&commandResult);
             }
             printf("Command returned %d\n", commandResult);

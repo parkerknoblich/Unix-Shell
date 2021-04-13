@@ -6,8 +6,9 @@
 #include <stdlib.h> // free
 #include <fcntl.h>  // open
 
-#define MAX_LINE 80
+#define MAX_LINE 80 // max amount of command arguments
 
+// frees memory from command arguments
 void freeMemory(char* args[], int numOfArgs) {
     int i = 0;
     while ((args[i] != NULL) && (i < numOfArgs) && (i < MAX_LINE)) {
@@ -15,23 +16,23 @@ void freeMemory(char* args[], int numOfArgs) {
     }
 }
 
-
+// reads command from user and formats/stores appropriately for execution
 int getCommand(char* args[], int* numOfArgs, int* waitFlag) {
-    char line[MAX_LINE];
-    fgets(line, MAX_LINE, stdin);
-    size_t length = strlen(line);
-    line[length - 1] = '\0';
-    if (strcmp(line, "exit") == 0) {
-        return -1;
-    } else if (strcmp(line, "!!") == 0) {
-        if (*numOfArgs < 1) {
-            printf("No commands in history.\n");
+    char line[MAX_LINE];                                          // holds user input
+    fgets(line, MAX_LINE, stdin);                                 // stores user input in line
+    size_t length = strlen(line);                                 // length of user input
+    line[length - 1] = '\0';                                      // remove new line character at end of user input
+    if (strcmp(line, "exit") == 0) {                              // case user input = "exit"
+        return 1;                                                 // return 1 if user inputs "exit"
+    } else if (strcmp(line, "!!") == 0) {                         // case user input = "!!"
+        if (*numOfArgs < 1) {                                     // check if a previous command has been executed
+            printf("No commands in history.\n");           // if not, print error message
         }
         return 0;
-    } else {
-        freeMemory(args, *numOfArgs);
-        *numOfArgs = 0;
-        if (strchr(line, '&') != NULL) {
+    } else {                                                      // case user input is a normal command
+        freeMemory(args, *numOfArgs);                             // free memory
+        *numOfArgs = 0;                                           // set number of arguments to 0
+        if (strchr(line, '&') != NULL) {                       // check if user inputted a "&" and remove if they did
             int i, j;
             for (i = 0, j = 0; i < length; i++) {
                 if (line[i] != '&') {
@@ -40,21 +41,20 @@ int getCommand(char* args[], int* numOfArgs, int* waitFlag) {
                 }
             }
             line[j] = '\0';
-            *waitFlag = 1;
-        } else {
-            *waitFlag = 0;
+            *waitFlag = 1;                                        // set wait flag if they inputted a "&"
         }
-        char* token = strtok(line, " ");
-        while (token != NULL) {
-            args[*numOfArgs] = strdup(token);
+        char* token = strtok(line, " ");                    // pointer that walks through user input, delimited by " "
+        while (token != NULL) {                                   // walk through user input
+            args[*numOfArgs] = strdup(token);                     // add each token to argument string
             token = strtok(NULL, " ");
-            (*numOfArgs)++;
+            (*numOfArgs)++;                                       // increment number of arguments
         }
-        args[*numOfArgs] = NULL;
-        return 1;
+        args[*numOfArgs] = NULL;                                  // set last index in argument string to NULL
+        return 0;
     }
 }
 
+// main function
 int main() {
     char *args[MAX_LINE];
     int numOfArgs = 0;
@@ -64,11 +64,11 @@ int main() {
         printf("osh>");
         fflush(stdout);
         int userInputResult = getCommand(args, &numOfArgs, &waitFlag);
-        if (userInputResult == -1) {
+        if (userInputResult == 1) {
             break;
         }
-        int forkret = fork();
-        if (forkret == 0) {
+        int mainForkReturn = fork();
+        if (mainForkReturn == 0) {
             int redirectionFlag = 0;
             int redirectionFile;
             if (args[1] != NULL) {
@@ -86,10 +86,9 @@ int main() {
                     printf("PIPE\n");
                     pipeFlag = 1;
                     int fd[2];
-                    pid_t p1, p2;
                     pipe(fd);
-                    p1 = fork();
-                    if (p1 == 0) {  // pipe child 1
+                    int pipeForkReturn = fork();
+                    if (pipeForkReturn == 0) {  // pipe child 1
                         close(fd[0]);
                         dup2(fd[1], STDOUT_FILENO);
                         close(fd[1]);
@@ -109,6 +108,20 @@ int main() {
                     }
                     close(fd[0]);
                     close(fd[1]);
+                } else if (strcmp(args[1], "whoami") == 0) {
+                    int whoAmIForkReturn = fork();
+                    if (whoAmIForkReturn == 0) {
+                        char* commandOneArgs[2];
+                        commandOneArgs[0] = args[1];
+                        commandOneArgs[1] = NULL;
+                        execvp(commandOneArgs[0], commandOneArgs);
+                    } else {
+                        wait(NULL);
+                        char* commandTwoArgs[2];
+                        commandTwoArgs[0] = args[0];
+                        commandTwoArgs[1] = NULL;
+                        execvp(commandTwoArgs[0], commandTwoArgs);
+                    }
                 }
             }
             if (pipeFlag == 0) {
@@ -132,4 +145,3 @@ int main() {
         }
     }
 }
-

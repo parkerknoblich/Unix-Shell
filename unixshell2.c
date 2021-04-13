@@ -3,8 +3,8 @@
 #include <unistd.h> // fork, execlp, pipe
 #include <wait.h>   // wait
 #include <assert.h> // assert
-#include <stdlib.h>
-#include <fcntl.h>
+#include <stdlib.h> // free
+#include <fcntl.h>  // open
 
 #define MAX_LINE 80
 
@@ -83,19 +83,45 @@ int main() {
                     args[1] = args[2] = NULL;
                     redirectionFlag = 2;
                 } else if (strcmp(args[1], "|") == 0) {         // pipe
+                    printf("PIPE\n");
                     pipeFlag = 1;
-                    printf("PIPE");
+                    int fd[2];
+                    pid_t p1, p2;
+                    pipe(fd);
+                    p1 = fork();
+                    if (p1 == 0) {  // pipe child 1
+                        close(fd[0]);
+                        dup2(fd[1], STDOUT_FILENO);
+                        close(fd[1]);
+                        char* commandOneArgs[2];
+                        commandOneArgs[0] = args[0];
+                        commandOneArgs[1] = NULL;
+                        execvp(commandOneArgs[0], commandOneArgs);
+                    } else {
+                        wait(NULL);
+                        close(fd[1]);
+                        dup2(fd[0], STDIN_FILENO);
+                        close(fd[0]);
+                        char* commandTwoArgs[2];
+                        commandTwoArgs[0] = args[2];
+                        commandTwoArgs[1] = NULL;
+                        execvp(commandTwoArgs[0], commandTwoArgs);
+                    }
+                    close(fd[0]);
+                    close(fd[1]);
                 }
             }
-            int executeResult = execvp(args[0], args);
-            assert(executeResult >= 0);
-            if (redirectionFlag == 1) {
-                close(STDIN_FILENO);
-            } else if (redirectionFlag == 2) {
-                close(STDOUT_FILENO);
+            if (pipeFlag == 0) {
+                int executeResult = execvp(args[0], args);
+                assert(executeResult >= 0);
+                if (redirectionFlag == 1) {
+                    close(STDIN_FILENO);
+                } else if (redirectionFlag == 2) {
+                    close(STDOUT_FILENO);
+                }
+                close(redirectionFile);
+                return 0;
             }
-            close(redirectionFile);
-            return 0;
         }  else {
             int commandResult;
             if (waitFlag) {

@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_C
-  "/home/parker/CSS430/Project1/unixshell2.c" "/home/parker/CSS430/Project1/cmake-build-debug/CMakeFiles/Project1.dir/unixshell2.c.o"
+  "/home/parker/CSS430/Project1/unixshell.c" "/home/parker/CSS430/Project1/cmake-build-debug/CMakeFiles/Project1.dir/unixshell.c.o"
   )
 set(CMAKE_C_COMPILER_ID "GNU")
 

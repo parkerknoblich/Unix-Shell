@@ -142,32 +142,32 @@ Project1/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Project1.dir/build.make CMakeFiles/Project1.dir/build
 .PHONY : Project1/fast
 
-unixshell2.o: unixshell2.c.o
+unixshell.o: unixshell.c.o
 
-.PHONY : unixshell2.o
+.PHONY : unixshell.o
 
 # target to build an object file
-unixshell2.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Project1.dir/build.make CMakeFiles/Project1.dir/unixshell2.c.o
-.PHONY : unixshell2.c.o
+unixshell.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Project1.dir/build.make CMakeFiles/Project1.dir/unixshell.c.o
+.PHONY : unixshell.c.o
 
-unixshell2.i: unixshell2.c.i
+unixshell.i: unixshell.c.i
 
-.PHONY : unixshell2.i
+.PHONY : unixshell.i
 
 # target to preprocess a source file
-unixshell2.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Project1.dir/build.make CMakeFiles/Project1.dir/unixshell2.c.i
-.PHONY : unixshell2.c.i
+unixshell.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Project1.dir/build.make CMakeFiles/Project1.dir/unixshell.c.i
+.PHONY : unixshell.c.i
 
-unixshell2.s: unixshell2.c.s
+unixshell.s: unixshell.c.s
 
-.PHONY : unixshell2.s
+.PHONY : unixshell.s
 
 # target to generate assembly for a file
-unixshell2.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Project1.dir/build.make CMakeFiles/Project1.dir/unixshell2.c.s
-.PHONY : unixshell2.c.s
+unixshell.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Project1.dir/build.make CMakeFiles/Project1.dir/unixshell.c.s
+.PHONY : unixshell.c.s
 
 # Help Target
 help:
@@ -178,9 +178,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... Project1"
-	@echo "... unixshell2.o"
-	@echo "... unixshell2.i"
-	@echo "... unixshell2.s"
+	@echo "... unixshell.o"
+	@echo "... unixshell.i"
+	@echo "... unixshell.s"
 .PHONY : help
 
 

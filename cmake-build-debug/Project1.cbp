@@ -84,7 +84,7 @@
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="/home/parker/CSS430/Project1/unixshell2.c">
+		<Unit filename="/home/parker/CSS430/Project1/unixshell.c">
 			<Option target="Project1"/>
 		</Unit>
 		<Unit filename="/home/parker/CSS430/Project1/CMakeLists.txt">

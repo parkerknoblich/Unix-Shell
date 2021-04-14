@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/parker/CSS430/Project1/unixshell2.c
+/home/parker/CSS430/Project1/unixshell.c
 stdio.h
 -
 string.h

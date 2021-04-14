@@ -16,6 +16,26 @@ void freeMemory(char* args[], int numOfArgs) {
     }
 }
 
+// checks to see the type of wait condition the user inputted ("&" (don't wait) or ";" (wait))
+int checkForWait(char line[], int length, char character, int* waitFlag) {
+    if (strchr(line, character) != NULL) {                        // check if user inputted a "&" or ";" and remove if they did
+        int i, j;
+        for (i = 0, j = 0; i < length; i++) {
+            if (line[i] != character) {
+                line[j] = line[i];
+                j++;
+            }
+        }
+        line[j] = '\0';
+        if (character == '&') {
+            *waitFlag = 1;                                        // set wait flag if they inputted a "&"
+        } else if (character == ';') {
+            *waitFlag = 0;                                        // don't set wait flag if they inputted a ";"
+        }
+    }
+    return *waitFlag;
+}
+
 // reads command from user and formats/stores appropriately for execution
 int getCommand(char* args[], char prevArgs[], int* numOfArgs, int* waitFlag) {
     char line[MAX_LINE];                                          // holds user input
@@ -33,23 +53,11 @@ int getCommand(char* args[], char prevArgs[], int* numOfArgs, int* waitFlag) {
         return 0;
     } else {                                                      // case: user input is a normal command
         strcpy(prevArgs, line);
-        printf("Previous command is now: %s\n", prevArgs);
         freeMemory(args, *numOfArgs);                             // free memory
         *numOfArgs = 0;
-        if (strchr(line, '&') != NULL) {                       // check if user inputted a "&" and remove if they did
-            int i, j;
-            for (i = 0, j = 0; i < length; i++) {
-                if (line[i] != '&') {
-                    line[j] = line[i];
-                    j++;
-                }
-            }
-            line[j] = '\0';
-            *waitFlag = 1;                                        // set wait flag if they inputted a "&"
-        } else {
-            *waitFlag = 0;
-        }
-        char* token = strtok(line, " ");                    // pointer that walks through user input, delimited by " "
+        checkForWait(line, length, '&', waitFlag);       // check for type of wait
+        checkForWait(line, length, ';', waitFlag);
+        char* token = strtok(line, " ");
         while (token != NULL) {                                   // walk through user input and add each token to argument string
             args[*numOfArgs] = strdup(token);
             token = strtok(NULL, " ");
@@ -104,7 +112,7 @@ int runCommand(char* args[], int hasExecuted, int waitFlag) {
                 close(fd[0]);
                 close(fd[1]);
                 hasExecuted = 1;
-            } else if (strstr(args[1], "-") == NULL) {            // case: user inputted a second command
+            } else if (strstr(args[1], "-") == NULL) {// case: user inputted a second command
                 int whoAmIForkReturn = fork();                      // create child process
                 if (whoAmIForkReturn == 0) {                        // child process
                     char* commandOneArgs[2];

@@ -11,12 +11,12 @@
 // frees memory from command arguments
 void freeMemory(char* args[], int numOfArgs) {
     int i = 0;
-    while ((args[i] != NULL) && (i < numOfArgs) && (i < MAX_LINE)) {
+    while ((args[i] != NULL) && (i < numOfArgs) && (i < MAX_LINE / 2  + 1)) {
         free(args[i++]);
     }
 }
 
-// checks to see the type of wait condition the user inputted ("&" (don't wait) or ";" (wait))
+// checks to see the type of wait condition the user inputted ("&" (don't wait) or ";" (wait) or nothing (wait))
 int checkForWait(char line[], int length, char character, int* waitFlag) {
     if (strchr(line, character) != NULL) {                        // check if user inputted a "&" or ";" and remove if they did
         int i, j;
@@ -38,8 +38,8 @@ int checkForWait(char line[], int length, char character, int* waitFlag) {
 
 // reads command from user and formats/stores appropriately for execution
 int getCommand(char* args[], char prevArgs[], int* numOfArgs, int* waitFlag) {
-    char line[MAX_LINE];                                          // holds user input
-    fgets(line, MAX_LINE, stdin);                                 // stores user input in line
+    char line[MAX_LINE / 2 + 1];                                          // holds user input
+    fgets(line, MAX_LINE / 2 + 1, stdin);                                 // stores user input in line
     size_t length = strlen(line);                                 // length of user input
     line[length - 1] = '\0';                                      // remove new line character at end of user input
     if (strcmp(line, "exit") == 0) {                              // case: user input = "exit"
@@ -152,8 +152,8 @@ int runCommand(char* args[], int hasExecuted, int waitFlag) {
 
 // main function
 int main() {
-    char* args[MAX_LINE];                                            // holds command arguments that user inputted
-    char prevArgs[MAX_LINE];
+    char* args[MAX_LINE / 2 + 1];                                            // holds command arguments that user inputted
+    char prevArgs[MAX_LINE / 2 + 1];
     int numOfArgs = 0;                                               // tracks number of arguments
     int hasExecuted = 0;                                             // indicates if execution has taken place
     int waitFlag = 0;                                                // indicates if user inputted "&"

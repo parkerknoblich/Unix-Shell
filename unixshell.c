@@ -38,8 +38,8 @@ int checkForWait(char line[], int length, char character, int* waitFlag) {
 
 // reads command from user and formats/stores appropriately for execution
 int getCommand(char* args[], char prevArgs[], int* numOfArgs, int* waitFlag) {
-    char line[MAX_LINE / 2 + 1];                                          // holds user input
-    fgets(line, MAX_LINE / 2 + 1, stdin);                                 // stores user input in line
+    char line[MAX_LINE / 2 + 1];                                  // holds user input
+    fgets(line, MAX_LINE / 2 + 1, stdin);                      // stores user input in line
     size_t length = strlen(line);                                 // length of user input
     line[length - 1] = '\0';                                      // remove new line character at end of user input
     if (strcmp(line, "exit") == 0) {                              // case: user input = "exit"
@@ -152,7 +152,7 @@ int runCommand(char* args[], int hasExecuted, int waitFlag) {
 
 // main function
 int main() {
-    char* args[MAX_LINE / 2 + 1];                                            // holds command arguments that user inputted
+    char* args[MAX_LINE / 2 + 1];                                    // holds command arguments that user inputted
     char prevArgs[MAX_LINE / 2 + 1];
     int numOfArgs = 0;                                               // tracks number of arguments
     int hasExecuted = 0;                                             // indicates if execution has taken place
